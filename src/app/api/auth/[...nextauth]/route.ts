@@ -5,13 +5,15 @@ import { User } from '@food/app/models/User';
 import bcrypt from 'bcrypt';
 import GoogleProvider from 'next-auth/providers/google';
 
+const googleClientId = process.env.GOOGLE_CLIENT_ID;
+const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
+
 const handler = NextAuth({
   providers: [
     GoogleProvider({
       id: 'google',
-      clientId:
-        '978503722021-fa1kullc46dbckbk5lc1te4ss0hn8nmp.apps.googleusercontent.com',
-      clientSecret: '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',
+      clientId: googleClientId || '',
+      clientSecret: googleClientSecret || '',
     }),
     CredentialsProvider({
       id: 'credentials',
