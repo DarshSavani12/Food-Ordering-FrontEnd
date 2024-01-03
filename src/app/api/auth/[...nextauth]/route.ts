@@ -4,6 +4,8 @@ import mongoose from 'mongoose';
 import { User } from '@food/app/models/User';
 import bcrypt from 'bcrypt';
 import GoogleProvider from 'next-auth/providers/google';
+import { MongoDBAdapter } from '@auth/mongodb-adapter';
+import clientPromise from '@food/libs/mongoConnect';
 
 const googleClientId = process.env.GOOGLE_CLIENT_ID;
 const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
@@ -12,6 +14,7 @@ const handler = NextAuth({
   providers: [
     GoogleProvider({
       id: 'google',
+      name: 'Google',
       clientId: googleClientId || '',
       clientSecret: googleClientSecret || '',
     }),
@@ -40,5 +43,6 @@ const handler = NextAuth({
     }),
   ],
   secret: process.env.SECRET,
+  adapter: MongoDBAdapter(clientPromise),
 });
 export { handler as GET, handler as POST };
