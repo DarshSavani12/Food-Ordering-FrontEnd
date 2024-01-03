@@ -3,6 +3,7 @@
 import { Provider } from 'react-redux';
 import store from '@food/state/store';
 import { NextUIProvider } from '@nextui-org/react';
+import { SessionProvider } from 'next-auth/react';
 
 export default function StoreProvider({
   children,
@@ -10,8 +11,10 @@ export default function StoreProvider({
   children: React.ReactNode;
 }) {
   return (
-    <Provider store={store}>
-      <NextUIProvider>{children}</NextUIProvider>
-    </Provider>
+    <SessionProvider>
+      <Provider store={store}>
+        <NextUIProvider>{children}</NextUIProvider>
+      </Provider>
+    </SessionProvider>
   );
 }
