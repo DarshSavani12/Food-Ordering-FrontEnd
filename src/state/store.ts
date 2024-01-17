@@ -1,12 +1,7 @@
 'use client';
 import { dataReducer } from '@food/app/data';
 import { configureStore } from '@reduxjs/toolkit';
-import {
-  TypedUseSelectorHook,
-  useDispatch,
-  useSelector,
-  useStore,
-} from 'react-redux';
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
 const store = configureStore({
   reducer: {
