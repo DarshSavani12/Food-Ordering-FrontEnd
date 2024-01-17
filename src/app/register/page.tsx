@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from '@food/state/store';
 import Image from 'next/image';
 import React from 'react';
 import {
+  app,
   getCreatingUser,
   getEmail,
   getError,
@@ -31,7 +32,7 @@ const RegistrationPage: React.FC = () => {
     dispatch(setError(false));
     dispatch(setUserCreated(false));
 
-    const response = await fetch('http://192.168.0.254:8080/api/users', {
+    const response = await fetch(app.API + '/api/users', {
       method: 'POST',
       body: JSON.stringify({ email, password }),
       headers: { 'Content-Type': 'application/json' },
@@ -93,6 +94,7 @@ const RegistrationPage: React.FC = () => {
             type="submit"
             className="w-full bg-primary text-white p-2 rounded text-medium font-semibold"
             disabled={creatingUser}
+            isLoading={creatingUser}
           >
             Register
           </Button>

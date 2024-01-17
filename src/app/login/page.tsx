@@ -4,13 +4,14 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { useAppDispatch, useAppSelector } from '@food/state/store';
 import {
+  app,
   getError,
   getLoading,
   getUserLoggedIn,
   setError,
   setLoading,
   setUserLoggedIn,
-} from '../data';
+} from '@food/app/data';
 import { signIn } from 'next-auth/react';
 
 export default function Loginpage() {
@@ -26,21 +27,12 @@ export default function Loginpage() {
     dispatch(setError(false));
     dispatch(setLoading(true));
     dispatch(setUserLoggedIn(false));
-    const response = await fetch('http://192.168.0.254:8080/api/login', {
-      method: 'POST',
-      body: JSON.stringify({ email, password }),
-      headers: { 'Content-Type': 'application/json' },
+    await signIn('credentials', {
+      email: email,
+      password: password,
+      redirect: true,
+      callbackUrl: '/',
     });
-    console.log('response', response.json());
-    if (response.status === 200) {
-      dispatch(setLoading(false));
-      dispatch(setUserLoggedIn(true));
-      await signIn('credentials', { email, password, callbackUrl: '/' });
-    } else {
-      dispatch(setLoading(false));
-      dispatch(setUserLoggedIn(false));
-      dispatch(setError(true));
-    }
   }
   return (
     <section className="flex items-center justify-center mt-8">
@@ -82,6 +74,7 @@ export default function Loginpage() {
             type="submit"
             className="w-full bg-primary text-white p-2 rounded text-medium font-semibold"
             disabled={LoginInProcess}
+            isLoading={LoginInProcess}
           >
             Login
           </Button>
